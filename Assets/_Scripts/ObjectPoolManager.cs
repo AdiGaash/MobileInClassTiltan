@@ -28,39 +28,11 @@ namespace Shooter
         // Optional dictionary to store and access pool collections by tag
         private Dictionary<string, List<GameObject>> poolDictionaryByTag = new Dictionary<string, List<GameObject>>();
 
-        private static ObjectPool _instance;
         
-        public static ObjectPool Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<ObjectPool>();
-                    
-                    if (_instance == null)
-                    {
-                        GameObject obj = new GameObject("ObjectPool");
-                        _instance = obj.AddComponent<ObjectPool>();
-                    }
-                }
-                
-                return _instance;
-            }
-        }
+        
 
         private void Awake()
         {
-            // Singleton pattern setup
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            
-            _instance = this;
-            
-            // Initialize all pools
             InitializePools();
         }
 
@@ -244,49 +216,6 @@ namespace Shooter
                 obj.SetActive(false);
             }
         }
-
-        /// <summary>
-        /// Returns all active objects from a specific pool to the pool
-        /// </summary>
-        /// <param name="prefab">The prefab whose instances should be returned</param>
-        public void ReturnAllToPool(GameObject prefab)
-        {
-            if (!poolDictionary.ContainsKey(prefab))
-            {
-                Debug.LogWarning($"Pool for prefab {prefab.name} doesn't exist!");
-                return;
-            }
-
-            List<GameObject> objectPool = poolDictionary[prefab];
-            foreach (GameObject obj in objectPool)
-            {
-                if (obj.activeInHierarchy)
-                {
-                    obj.SetActive(false);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns all active objects from a pool identified by tag
-        /// </summary>
-        /// <param name="poolTag">Tag identifying the pool</param>
-        public void ReturnAllToPoolByTag(string poolTag)
-        {
-            if (!poolDictionaryByTag.ContainsKey(poolTag))
-            {
-                Debug.LogWarning($"No pool found with tag: {poolTag}");
-                return;
-            }
-
-            List<GameObject> objectPool = poolDictionaryByTag[poolTag];
-            foreach (GameObject obj in objectPool)
-            {
-                if (obj.activeInHierarchy)
-                {
-                    obj.SetActive(false);
-                }
-            }
-        }
+        
     }
 }
