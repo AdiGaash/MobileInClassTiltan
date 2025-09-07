@@ -1,22 +1,62 @@
 ﻿using UnityEngine;
+using System;
 
 namespace Shooter
 {
     public class CameraBoundsController : MonoBehaviour
     {
-        // Camera boundaries in world space
-        private float minX, maxX, minZ, maxZ;
-        private bool boundariesCalculated = false;
+        // Event that will be raised when camera boundaries change
+        public event Action<Rect> OnBoundariesChanged;
+        
+        // Cache the camera transform and properties to check for changes
+        private Transform cameraTransform;
+        private Vector3 lastPosition;
+        private Quaternion lastRotation;
+        private Camera mainCamera;
+        private float lastFieldOfView;
+        private float lastOrthographicSize;
         
         // Height at which to calculate the boundaries (typically player's y position)
-        [Tooltip("The Y height at which to calculate camera boundaries (usually player's height)")]
+        [Tooltip("The Y height at which to calculate camera boundaries")]
         public float boundaryCalculationHeight = 0f;
         
-        // Calculate general boundaries with optional object extents
-        public void CalculateBoundaries(float objectExtentX = 0f, float objectExtentZ = 0f)
+        private void Awake()
         {
+            mainCamera = GetComponent<Camera>();
+            cameraTransform = transform;
+            lastPosition = cameraTransform.position;
+            lastRotation = cameraTransform.rotation;
+            lastFieldOfView = mainCamera.fieldOfView;
+            lastOrthographicSize = mainCamera.orthographicSize;
+        }
+        
+        private void LateUpdate()
+        {
+            // Check if camera has moved, rotated, or if FOV/orthographic size has changed
+            bool hasPositionChanged = lastPosition != cameraTransform.position;
+            bool hasRotationChanged = lastRotation != cameraTransform.rotation;
+            bool hasFOVChanged = !mainCamera.orthographic && lastFieldOfView != mainCamera.fieldOfView;
+            bool hasOrthoSizeChanged = mainCamera.orthographic && lastOrthographicSize != mainCamera.orthographicSize;
+            
+            if (hasPositionChanged || hasRotationChanged || hasFOVChanged || hasOrthoSizeChanged)
+            {
+                // Recalculate boundaries and notify listeners
+                Rect newBoundaries = CalculateBoundaries();
+                
+                // Update cached values
+                lastPosition = cameraTransform.position;
+                lastRotation = cameraTransform.rotation;
+                lastFieldOfView = mainCamera.fieldOfView;
+                lastOrthographicSize = mainCamera.orthographicSize;
+            }
+        }
+        
+        // Calculate general boundaries with optional object extents
+        public Rect CalculateBoundaries(float objectExtentX = 0f, float objectExtentZ = 0f)
+        {
+            float minX, maxX, minZ, maxZ;
+            
             // Find the camera boundaries in world space
-            Camera mainCamera = GetComponent<Camera>();
             
             // For orthographic camera, the calculation is different
             if (mainCamera.orthographic)
@@ -49,13 +89,19 @@ namespace Shooter
                 maxZ = topRight.z - objectExtentZ;
             }
             
-            boundariesCalculated = true;
+            // Create the boundaries rect
+            Rect boundaries = new Rect(minX, minZ, maxX - minX, maxZ - minZ);
             
             Debug.Log($"Camera boundaries calculated: X({minX} to {maxX}), Z({minZ} to {maxZ})");
+            
+            // Notify listeners that boundaries have changed
+            OnBoundariesChanged?.Invoke(boundaries);
+            
+            return boundaries;
         }
         
         // Calculate boundaries for a specific object - now uses the general method
-        public void CalculateBoundariesForObject(GameObject targetObject)
+        public Rect CalculateBoundariesForObject(GameObject targetObject)
         {
             // Get object size
             Bounds objectBounds;
@@ -88,87 +134,17 @@ namespace Shooter
             float objectExtentZ = objectBounds.extents.z;
             
             // Use the general method with object-specific extents
-            CalculateBoundaries(objectExtentX, objectExtentZ);
+            Rect boundaries = CalculateBoundaries(objectExtentX, objectExtentZ);
             
-            Debug.Log($"Camera boundaries calculated for {targetObject.name}: X({minX} to {maxX}), Z({minZ} to {maxZ})");
+            Debug.Log($"Camera boundaries calculated for {targetObject.name}: X({boundaries.xMin} to {boundaries.xMax}), Z({boundaries.yMin} to {boundaries.yMax})");
+            
+            return boundaries;
         }
         
-        // Clamp a position to stay within boundaries
-        public Vector3 ClampPositionToBoundaries(Vector3 position)
-        {
-            if (!boundariesCalculated)
-            {
-                Debug.LogWarning("Attempting to clamp position before boundaries are calculated!");
-                return position;
-            }
-            
-            position.x = Mathf.Clamp(position.x, minX, maxX);
-            position.z = Mathf.Clamp(position.z, minZ, maxZ);
-            
-            return position;
-        }
-        
-        // Check if a position is within boundaries
-        public bool IsPositionWithinBoundaries(Vector3 position)
-        {
-            if (!boundariesCalculated)
-                return true; // Default to true if not calculated yet
-                
-            return position.x >= minX && position.x <= maxX && 
-                   position.z >= minZ && position.z <= maxZ;
-        }
-        
-        // Get the current boundaries
+        // Get the current boundaries (calculated fresh each time)
         public Rect GetBoundariesRect()
         {
-            if (!boundariesCalculated)
-                return new Rect(0, 0, 0, 0);
-                
-            return new Rect(minX, minZ, maxX - minX, maxZ - minZ);
-        }
-        
-        // Returns the maximum distance the object can move in a given direction
-        public float GetMaxDistanceInDirection(Vector3 position, Vector3 direction)
-        {
-            if (!boundariesCalculated)
-                return Mathf.Infinity;
-                
-            direction.Normalize();
-            
-            // Initialize with a large value
-            float maxDistance = Mathf.Infinity;
-            
-            // Check X boundaries
-            if (Mathf.Abs(direction.x) > 0.0001f)
-            {
-                if (direction.x > 0)
-                {
-                    float distanceToX = (maxX - position.x) / direction.x;
-                    maxDistance = Mathf.Min(maxDistance, distanceToX);
-                }
-                else
-                {
-                    float distanceToX = (minX - position.x) / direction.x;
-                    maxDistance = Mathf.Min(maxDistance, distanceToX);
-                }
-            }
-            
-            // Check Z boundaries
-            if (Mathf.Abs(direction.z) > 0.0001f)
-            {
-                if (direction.z > 0)
-                {
-                    float distanceToZ = (maxZ - position.z) / direction.z;
-                    maxDistance = Mathf.Min(maxDistance, distanceToZ);
-                }
-                else
-                {
-                    float distanceToZ = (minZ - position.z) / direction.z;
-                    maxDistance = Mathf.Min(maxDistance, distanceToZ);
-                }
-            }
-            
-            return maxDistance;
+            return CalculateBoundaries();
         }
     }
 }
