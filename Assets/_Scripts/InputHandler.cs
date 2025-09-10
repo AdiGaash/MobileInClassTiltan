@@ -21,7 +21,7 @@ namespace Shooter
             // If there's any input, trigger the event
             if (movementInput != Vector2.zero)
             {
-                // Notify subscribers about the movement input
+                Debug.Log($"Movement input detected: {movementInput}");
                 OnMovementInput?.Invoke(movementInput);
             }
         }
@@ -50,24 +50,7 @@ namespace Shooter
             return new Vector2(horizontalInput, verticalInput);
         }
 
-        // Get raw input (values of -1, 0, or 1 only)
-        public Vector2 GetRawMovementInput()
-        {
-            float horizontalInput = 0f;
-            float verticalInput = 0f;
-
-            if (useLegacyInput)
-            {
-                horizontalInput = Input.GetAxisRaw("Horizontal");
-                verticalInput = Input.GetAxisRaw("Vertical");
-            }
-            else
-            {
-                // Implement new Input System raw input here
-            }
-
-            return new Vector2(horizontalInput, verticalInput);
-        }
+      
 
         // Check if any movement key is pressed
         public bool IsMoving()

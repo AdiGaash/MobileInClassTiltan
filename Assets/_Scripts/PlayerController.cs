@@ -9,33 +9,24 @@ namespace Shooter
         public float moveSpeed = 5f;
         
         [Header("References")]
-        [Tooltip("Reference to the CameraBoundsController (usually on the main camera)")]
-        public CameraBoundsController cameraBoundsController;
+        [Tooltip("Reference to the GameArea that defines the play area")]
+        public GameArea gameArea;
+        
+        [Tooltip("Name of the layer to use for player boundaries")]
+        public string boundaryLayerName = "PlayerBoundary";
         
         private InputHandler inputHandler;
         private bool boundsInitialized = false;
+        private SpawnLayer playerBoundaryLayer;
         
-        // Local storage for movement boundaries
-        private Rect movementBoundaries;
-        
-        private void Awake()
-        {
-            // Get the InputHandler component
-            inputHandler = GetComponent<InputHandler>();
-        }
-        
-        private void OnEnable()
-        {
+        private void SetInputHandler()
+        { 
             // Subscribe to the movement input event
+            inputHandler = GetComponent<InputHandler>();
             if (inputHandler != null)
-            {
+            { 
+                Debug.Log("Successfully subscribed to OnMovementInput event");
                 inputHandler.OnMovementInput += Move;
-            }
-            
-            // Subscribe to camera boundaries changed event
-            if (cameraBoundsController != null)
-            {
-                cameraBoundsController.OnBoundariesChanged += UpdateMovementBoundaries;
             }
         }
         
@@ -46,79 +37,57 @@ namespace Shooter
             {
                 inputHandler.OnMovementInput -= Move;
             }
-            
-            // Unsubscribe from camera boundaries changed event
-            if (cameraBoundsController != null)
-            {
-                cameraBoundsController.OnBoundariesChanged -= UpdateMovementBoundaries;
-            }
         }
         
         private void Start()
         {
-            // Find the camera bounds controller if not set in inspector
-            if (cameraBoundsController == null)
+            SetInputHandler();
+            InitializeBoundaries();
+        }
+        
+        // Initialize the movement boundaries using GameArea's SpawnLayer
+        private void InitializeBoundaries()
+        {
+            if (gameArea == null)
             {
-                cameraBoundsController = Camera.main.GetComponent<CameraBoundsController>();
-                
-                // Subscribe to its events if we just found it
-                if (cameraBoundsController != null)
+                Debug.LogError("GameArea not assigned to PlayerController! Please assign it in the inspector.");
+                return;
+            }
+            
+            // Find the appropriate layer for player boundaries
+            foreach (var layer in gameArea.layers)
+            {
+                if (layer.name == boundaryLayerName)
                 {
-                    cameraBoundsController.OnBoundariesChanged += UpdateMovementBoundaries;
+                    playerBoundaryLayer = layer;
+                    boundsInitialized = true;
+                    Debug.Log($"Player boundary layer '{boundaryLayerName}' found and initialized");
+                    return;
                 }
             }
             
-            if (cameraBoundsController != null)
-            {
-                // Set the calculation height to match the player's height
-                cameraBoundsController.boundaryCalculationHeight = transform.position.y;
-                
-                // Calculate and store boundaries for this object
-                movementBoundaries = cameraBoundsController.CalculateBoundariesForObject(gameObject);
-                boundsInitialized = true;
-                
-                Debug.Log($"Initial movement boundaries set: X({movementBoundaries.xMin} to {movementBoundaries.xMax}), Z({movementBoundaries.yMin} to {movementBoundaries.yMax})");
-            }
-            else
-            {
-                Debug.LogError("CameraBoundsController not found! Please assign it in the inspector or add it to your main camera.");
-            }
+            Debug.LogError($"Layer '{boundaryLayerName}' not found in GameArea. Please create this layer in the GameArea component.");
         }
         
-        // Event handler for when camera boundaries change
-        private void UpdateMovementBoundaries(Rect newBoundaries)
-        {
-            movementBoundaries = newBoundaries;
-            boundsInitialized = true;
-            Debug.Log($"Movement boundaries updated: X({movementBoundaries.xMin} to {movementBoundaries.xMax}), Z({movementBoundaries.yMin} to {movementBoundaries.yMax})");
-        }
-        
-        // Clamp a position to stay within the local movement boundaries
+        // Clamp a position to stay within the player boundary layer
         private Vector3 ClampPositionToBoundaries(Vector3 position)
         {
-            if (!boundsInitialized)
+            if (!boundsInitialized || playerBoundaryLayer == null)
             {
-                Debug.LogWarning("Attempting to clamp position before boundaries are calculated!");
+                Debug.LogWarning("Attempting to clamp position before boundaries are initialized!");
                 return position;
             }
             
-            position.x = Mathf.Clamp(position.x, movementBoundaries.xMin, movementBoundaries.xMax);
-            position.z = Mathf.Clamp(position.z, movementBoundaries.yMin, movementBoundaries.yMax);
+            // Clamp X and Z (we assume Y doesn't change for typical top-down or side-scrolling games)
+            position.x = Mathf.Clamp(position.x, playerBoundaryLayer.minBounds.x, playerBoundaryLayer.maxBounds.x);
+            position.z = Mathf.Clamp(position.z, playerBoundaryLayer.minBounds.y, playerBoundaryLayer.maxBounds.y);
             
             return position;
         }
         
-        // Check if a position is within boundaries
-        private bool IsPositionWithinBoundaries(Vector3 position)
-        {
-            if (!boundsInitialized)
-                return true; // Default to true if not calculated yet
-                
-            return position.x >= movementBoundaries.xMin && position.x <= movementBoundaries.xMax && 
-                   position.z >= movementBoundaries.yMin && position.z <= movementBoundaries.yMax;
-        }
+       
         
-        // Public move function that respects camera boundaries
+        // Public move function that respects the game area boundaries
         public void Move(Vector2 direction)
         {
             if (!boundsInitialized)
