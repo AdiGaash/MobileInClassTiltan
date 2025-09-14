@@ -269,16 +269,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25fa605d791c411bb719c3c2a627da7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 0
   camera: {fileID: 330585545}
   layers:
-  - name: PlayerBoundary
+  - name: Player boundary
     distanceToCamera: 75
     padding: 0
     minBounds: {x: -42.191696, y: -75}
     maxBounds: {x: 42.191696, y: 74.97324}
     visualizationDistance: 20
     debugColor: {r: 0.8436657, g: 0.18533354, b: 0.18533354, a: 1}
-  - name: Clouds
+  - name: Background objects
     distanceToCamera: 40
     padding: 10
     minBounds: {x: -22.502237, y: -40.000004}
@@ -489,7 +490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   gameArea: {fileID: 330585548}
-  boundaryLayerName: PlayerBoundary
+  boundaryLayerName: Player boundary
 --- !u!136 &1047097842
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -576,7 +577,6 @@ MonoBehaviour:
   - prefab: {fileID: 8763607762714683411, guid: 2152c0b51992ab8448a152f3a3cf7005, type: 3}
     initialPoolSize: 10
     canExpand: 0
-    poolTag: Cloud
 --- !u!4 &1052486187
 Transform:
   m_ObjectHideFlags: 0
@@ -606,7 +606,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1686196739}
-  - component: {fileID: 1686196738}
   m_Layer: 0
   m_Name: Cloud Spawner
   m_TagString: Untagged
@@ -614,23 +613,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1686196738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686196737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e6a74129a406f24788f7ecae3b40fda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameArea: {fileID: 330585548}
-  targetLayerName: Clouds
-  objectPoolTag: Cloud
-  spawnInterval: 2
-  isSpawning: 1
 --- !u!4 &1686196739
 Transform:
   m_ObjectHideFlags: 0

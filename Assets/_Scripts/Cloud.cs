@@ -4,16 +4,16 @@ namespace Shooter
 {
     public class Cloud : Poolable
     {
-        public float MoveSpeed;
-
         void Update()
         {
-            transform.Translate(Vector3.back * MoveSpeed * Time.deltaTime);
+            transform.Translate(MoveDirection * MoveSpeed * Time.deltaTime);
         }
     }
 
     public abstract class Poolable: MonoBehaviour
     {
-        public ObjectPoolManager ObjectPoolManager;
+      
+        public float MoveSpeed;
+        public Vector3 MoveDirection;
     }
 }

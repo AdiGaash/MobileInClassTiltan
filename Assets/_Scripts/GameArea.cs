@@ -3,7 +3,7 @@ using UnityEngine.Serialization;
 
 namespace Shooter
 {
-    public class GameArea : Singleton<GameArea>
+    public class GameArea : MonoBehaviour
     {
         public Camera camera;
         public SpawnLayer[] layers;
@@ -56,6 +56,7 @@ namespace Shooter
         /// </summary>
         public Vector3 GetSpawnPositionFromTop(SpawnLayer layer)
         {
+           
             float x = Random.Range(layer.minBounds.x, layer.maxBounds.x);
             // Use Z instead of Y for the top edge in a top-down view
             float z = layer.maxBounds.y + layer.padding;
@@ -65,6 +66,19 @@ namespace Shooter
             return new Vector3(x, y, z);
         }
 
+        public SpawnLayer GetSpawnLayerByName(string layerName)
+        {
+            foreach (var layer in layers)
+            {
+                if (layer.name == layerName)
+                {
+                    return layer;
+                }
+            }
+            Debug.LogWarning($"Spawn layer '{layerName}' not found in GameArea!");
+            return null;
+        }
+        
         /// <summary>
         /// Check if position is outside cached bounds.
         /// </summary>

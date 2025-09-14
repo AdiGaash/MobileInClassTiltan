@@ -17,7 +17,11 @@ namespace Shooter
         
         private InputHandler inputHandler;
         private bool boundsInitialized = false;
-        private SpawnLayer playerBoundaryLayer;
+
+
+        private Vector2 minBounds;
+        private Vector2 maxBounds;
+        
         
         private void SetInputHandler()
         { 
@@ -59,8 +63,9 @@ namespace Shooter
             {
                 if (layer.name == boundaryLayerName)
                 {
-                    playerBoundaryLayer = layer;
-                    boundsInitialized = true;
+                    minBounds = layer.minBounds;
+                    maxBounds = layer.maxBounds;
+                    
                     Debug.Log($"Player boundary layer '{boundaryLayerName}' found and initialized");
                     return;
                 }
@@ -72,15 +77,15 @@ namespace Shooter
         // Clamp a position to stay within the player boundary layer
         private Vector3 ClampPositionToBoundaries(Vector3 position)
         {
-            if (!boundsInitialized || playerBoundaryLayer == null)
+            if (!boundsInitialized)
             {
                 Debug.LogWarning("Attempting to clamp position before boundaries are initialized!");
                 return position;
             }
             
             // Clamp X and Z (we assume Y doesn't change for typical top-down or side-scrolling games)
-            position.x = Mathf.Clamp(position.x, playerBoundaryLayer.minBounds.x, playerBoundaryLayer.maxBounds.x);
-            position.z = Mathf.Clamp(position.z, playerBoundaryLayer.minBounds.y, playerBoundaryLayer.maxBounds.y);
+            position.x = Mathf.Clamp(position.x, minBounds.x, maxBounds.x);
+            position.z = Mathf.Clamp(position.z, minBounds.y, maxBounds.y);
             
             return position;
         }
