@@ -269,23 +269,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25fa605d791c411bb719c3c2a627da7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
   camera: {fileID: 330585545}
   layers:
   - name: Player boundary
     distanceToCamera: 75
     padding: 0
-    minBounds: {x: -42.191696, y: -75}
-    maxBounds: {x: 42.191696, y: 74.97324}
-    visualizationDistance: 20
+    minBounds: {x: -43.866074, y: -75}
+    maxBounds: {x: 43.922382, y: 74.97188}
     debugColor: {r: 0.8436657, g: 0.18533354, b: 0.18533354, a: 1}
-  - name: Background objects
+  - name: Clouds
     distanceToCamera: 40
     padding: 10
-    minBounds: {x: -22.502237, y: -40.000004}
-    maxBounds: {x: 22.502237, y: 39.985733}
-    visualizationDistance: 20
+    minBounds: {x: -23.39524, y: -40.000004}
+    maxBounds: {x: 23.42527, y: 39.985}
     debugColor: {r: 0.1843137, g: 0.73143, b: 0.84313726, a: 1}
+  - name: Ground
+    distanceToCamera: 100
+    padding: 10
+    minBounds: {x: -58.4881, y: -100.00001}
+    maxBounds: {x: 58.563175, y: 99.9625}
+    debugColor: {r: 0.1843137, g: 0.2412598, b: 0.84313726, a: 1}
   showDebugBounds: 1
 --- !u!1 &410087039
 GameObject:
@@ -408,6 +411,55 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &547662953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 547662955}
+  - component: {fileID: 547662954}
+  m_Layer: 0
+  m_Name: GroundObjects Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &547662954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547662953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b414b9599e0ae45b2e68309a3e2681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameArea: {fileID: 330585548}
+  SpawnLayerName: Ground
+  prefab: {fileID: 3863313576614964610, guid: e3817462290a1744191b575ab6095c01, type: 3}
+  speedModifier: 4.5
+  poolManager: {fileID: 1052486186}
+--- !u!4 &547662955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547662953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.2626267, y: -17.348803, z: 0.66723317}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,10 +624,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5bef487fae848b4fb7b5a300ffc3cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
   pooledObjects:
   - prefab: {fileID: 8763607762714683411, guid: 2152c0b51992ab8448a152f3a3cf7005, type: 3}
     initialPoolSize: 10
+    canExpand: 0
+  - prefab: {fileID: 3863313576614964610, guid: e3817462290a1744191b575ab6095c01, type: 3}
+    initialPoolSize: 20
     canExpand: 0
 --- !u!4 &1052486187
 Transform:
@@ -606,6 +660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1686196739}
+  - component: {fileID: 1686196740}
   m_Layer: 0
   m_Name: Cloud Spawner
   m_TagString: Untagged
@@ -628,6 +683,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1686196740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686196737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b414b9599e0ae45b2e68309a3e2681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameArea: {fileID: 330585548}
+  SpawnLayerName: Clouds
+  prefab: {fileID: 8763607762714683411, guid: 2152c0b51992ab8448a152f3a3cf7005, type: 3}
+  speedModifier: 3
+  poolManager: {fileID: 1052486186}
 --- !u!1 &1748750169
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,3 +829,4 @@ SceneRoots:
   - {fileID: 1748750172}
   - {fileID: 1052486187}
   - {fileID: 1686196739}
+  - {fileID: 547662955}

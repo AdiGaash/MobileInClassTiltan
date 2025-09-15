@@ -59,7 +59,7 @@ namespace Shooter
            
             float x = Random.Range(layer.minBounds.x, layer.maxBounds.x);
             // Use Z instead of Y for the top edge in a top-down view
-            float z = layer.maxBounds.y + layer.padding;
+            float z = Random.Range(layer.maxBounds.y,layer.maxBounds.y + layer.padding-1);
 
             // Y coordinate should be consistent with the camera's view direction
             float y = camera.orthographic ? 0f : -layer.distanceToCamera;

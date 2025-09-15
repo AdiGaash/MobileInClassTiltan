@@ -46,7 +46,7 @@ namespace Shooter
 
         private void Start()
         {
-            StartRepeatedSpawning(prefab, 1f);
+            StartRepeatedSpawning(prefab, 2.5f);
         }
 
         private void Update()
@@ -179,7 +179,12 @@ namespace Shooter
         {
             StopAllCoroutines();
         }
-     
+
+        private void OnDisable()
+        {
+            StopAllRepeatedSpawning();
+        }
+
         /// <summary>
         /// Despawns an object, returning it to the pool.
         /// </summary>
