@@ -5,6 +5,9 @@ namespace Shooter
     [RequireComponent(typeof(InputHandler))]
     public class PlayerController : MonoBehaviour
     {
+        
+        public LevelParameters LevelParameters;
+        
         [Header("Movement Settings")]
         public float moveSpeed = 5f;
         
@@ -45,6 +48,8 @@ namespace Shooter
         
         private void Start()
         {
+            
+            
             SetInputHandler();
             InitializeBoundaries();
         }
@@ -95,6 +100,9 @@ namespace Shooter
         // Public move function that respects the game area boundaries
         public void Move(Vector2 direction)
         {
+            
+            moveSpeed = LevelParameters.PlayerSpeed;
+            
             if (!boundsInitialized)
                 return;
                 
