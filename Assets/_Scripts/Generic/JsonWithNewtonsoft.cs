@@ -3,40 +3,6 @@ using System.IO; // For file operations
 using UnityEngine; // For Application.persistentDataPath
 using Newtonsoft.Json; // For JSON serialization and deserialization
 
-[System.Serializable]
-public class GameData
-{
-    // Unique identifier for the game data entry
-    public string Id { get; set; }
-
-    // Name or title of the game data
-    public string Name { get; set; }
-
-    // A generic value that can store various types of game-related information
-    public object Value { get; set; }
-
-    // Timestamp for when the data was created or last modified
-    public System.DateTime Timestamp { get; set; }
-
-    // Optional metadata or additional properties
-    public Dictionary<string, string> Metadata { get; set; }
-
-    // Default constructor
-    public GameData()
-    {
-        Id = System.Guid.NewGuid().ToString();
-        Timestamp = System.DateTime.UtcNow;
-        Metadata = new Dictionary<string, string>();
-    }
-
-    // Constructor with parameters
-    public GameData(string name, object value) : this()
-    {
-        Name = name;
-        Value = value;
-    }
-}
-
 public static class JsonWithNewtonsoft
 {
     // This function will save a list of GameData objects as a JSON file
