@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Shooter
 {
@@ -6,6 +7,7 @@ namespace Shooter
     {
         private float timer = 0f;
 
+        
         private void Update()
         {
             timer += Time.deltaTime;

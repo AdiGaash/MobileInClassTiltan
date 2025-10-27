@@ -7,6 +7,7 @@ namespace Shooter
     {
         public GameObject prefab;
         public List<GameObject> spawnedObjects = new List<GameObject>();
+        public List<Transform> spawnedObjectsTransform = new List<Transform>();
         public Transform target;
 
         private void Start()
