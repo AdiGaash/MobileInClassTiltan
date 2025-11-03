@@ -48,8 +48,6 @@ namespace Shooter
         
         private void Start()
         {
-            
-            
             SetInputHandler();
             InitializeBoundaries();
         }
@@ -72,6 +70,7 @@ namespace Shooter
                     maxBounds = layer.maxBounds;
                     
                     Debug.Log($"Player boundary layer '{boundaryLayerName}' found and initialized");
+                    boundsInitialized = true;
                     return;
                 }
             }
@@ -119,7 +118,8 @@ namespace Shooter
             
             // Clamp the position within boundaries using our local method
             newPosition = ClampPositionToBoundaries(newPosition);
-            
+           
+
             // Apply the movement
             transform.position = newPosition;
         }

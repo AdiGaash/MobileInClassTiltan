@@ -249,7 +249,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -257,6 +256,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!114 &330585548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,14 +269,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25fa605d791c411bb719c3c2a627da7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 330585545}
   layers:
-  - name: Default
+  - name: Clouds
+    distanceToCamera: 8
+    padding: 3
+    minBounds: {x: -5.0700727, y: -8}
+    maxBounds: {x: 5.070071, y: 7.9944806}
+    debugColor: {r: 0.8930817, g: 0.648748, b: 0.648748, a: 1}
+  - name: Player boundary
     distanceToCamera: 10
+    padding: 0
+    minBounds: {x: -6.337591, y: -10.000001}
+    maxBounds: {x: 6.3375893, y: 9.993101}
+    debugColor: {r: 0.9528983, g: 0.9559748, b: 0.063130274, a: 1}
+  - name: Ground
+    distanceToCamera: 15
     padding: 2
-    minBounds: {x: 0, y: 0}
-    maxBounds: {x: 0, y: 0}
-    debugColor: {r: 1, g: 1, b: 1, a: 1}
+    minBounds: {x: -9.506387, y: -15.000001}
+    maxBounds: {x: 9.506384, y: 14.989652}
+    debugColor: {r: 0.57168895, g: 0.95686275, b: 0.06274508, a: 1}
   showDebugBounds: 1
 --- !u!1 &410087039
 GameObject:
@@ -388,17 +400,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &481442293
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,7 +622,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -612,6 +629,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!20 &571300075
 Camera:
   m_ObjectHideFlags: 0
@@ -992,9 +1010,6 @@ MonoBehaviour:
   - prefab: {fileID: 3863313576614964610, guid: e3817462290a1744191b575ab6095c01, type: 3}
     initialPoolSize: 20
     canExpand: 0
-  - prefab: {fileID: 1636982014254285950, guid: 1f0d84a8ae53b0c4e9aa00ead71a7f85, type: 3}
-    initialPoolSize: 100
-    canExpand: 1
 --- !u!4 &1052486187
 Transform:
   m_ObjectHideFlags: 0
