@@ -3,7 +3,7 @@
 namespace Shooter
 {
    
-    public class Poolable: MonoBehaviour
+    public class AutonomousMove: MonoBehaviour
     {
       
         public float MoveSpeed;

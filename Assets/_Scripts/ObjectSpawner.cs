@@ -105,11 +105,11 @@ namespace Shooter
             obj.transform.rotation = rotation;
             
             // Set movement properties
-            Poolable poolable = obj.GetComponent<Poolable>();
-            if (poolable != null)
+            AutonomousMove autonomousMove = obj.GetComponent<AutonomousMove>();
+            if (autonomousMove != null)
             {
-                poolable.MoveDirection = Vector3.back;
-                poolable.MoveSpeed = speedModifier;
+                autonomousMove.MoveDirection = Vector3.back;
+                autonomousMove.MoveSpeed = speedModifier;
             }
 
             // Add to active objects list

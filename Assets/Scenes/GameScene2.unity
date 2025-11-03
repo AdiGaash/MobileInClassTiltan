@@ -289,6 +289,12 @@ MonoBehaviour:
     minBounds: {x: -63.375916, y: -100.00001}
     maxBounds: {x: 63.37589, y: 99.93101}
     debugColor: {r: 0.57168895, g: 0.95686275, b: 0.06274508, a: 1}
+  - name: Enenies
+    distanceToCamera: 75
+    padding: 5
+    minBounds: {x: -47.531937, y: -75.00001}
+    maxBounds: {x: 47.531918, y: 74.94826}
+    debugColor: {r: 0.95686275, g: 0.06564848, b: 0.06274508, a: 1}
   showDebugBounds: 1
 --- !u!1 &410087039
 GameObject:
@@ -900,7 +906,7 @@ GameObject:
   - component: {fileID: 1047097846}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1010,6 +1016,9 @@ MonoBehaviour:
   - prefab: {fileID: 3863313576614964610, guid: e3817462290a1744191b575ab6095c01, type: 3}
     initialPoolSize: 20
     canExpand: 0
+  - prefab: {fileID: 2381536316569345147, guid: 2223e33cd74211a47b2e506e401ee554, type: 3}
+    initialPoolSize: 30
+    canExpand: 1
 --- !u!4 &1052486187
 Transform:
   m_ObjectHideFlags: 0
@@ -1020,6 +1029,56 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.4260097, y: -0.000547826, z: -28.400719}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1195546721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1195546723}
+  - component: {fileID: 1195546722}
+  m_Layer: 0
+  m_Name: Enemies Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1195546722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195546721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec55763245264346b6fc8a0f07f9c58b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shooter.EnemySpawner
+  gameArea: {fileID: 330585548}
+  spawnLayerName: Enenies
+  enemyPrefab: {fileID: 2381536316569345147, guid: 2223e33cd74211a47b2e506e401ee554, type: 3}
+  poolManager: {fileID: 1052486186}
+  spawnInterval: 3
+  maxSpawnCount: 100
+--- !u!4 &1195546723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195546721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.2626267, y: -17.348803, z: 0.66723317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1350,5 +1409,6 @@ SceneRoots:
   - {fileID: 1748750172}
   - {fileID: 1052486187}
   - {fileID: 1686196739}
+  - {fileID: 1195546723}
   - {fileID: 547662955}
   - {fileID: 1372436860}
