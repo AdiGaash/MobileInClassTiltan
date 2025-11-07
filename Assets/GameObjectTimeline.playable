@@ -22,7 +22,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 0.5166666666666667
+    m_Start: 0.48333333333333334
     m_ClipIn: 0
     m_Asset: {fileID: 8654637629592416711}
     m_Duration: 2.2666666666666684
@@ -127,5 +127,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shooter.EnemySpawnPlayableAsset
   enemyPrefab: {fileID: 2381536316569345147, guid: 2223e33cd74211a47b2e506e401ee554, type: 3}
   spawnCount: 1
-  AnimationClipNum: 0
-  spawnPoint: {fileID: 0}
