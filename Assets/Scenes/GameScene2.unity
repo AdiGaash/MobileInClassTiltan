@@ -274,26 +274,26 @@ MonoBehaviour:
   - name: Clouds
     distanceToCamera: 8
     padding: 3
-    minBounds: {x: -5.070073, y: -8.000001}
-    maxBounds: {x: 5.070071, y: 7.99448}
+    minBounds: {x: -6.4124293, y: -8.000001}
+    maxBounds: {x: 6.41243, y: 7.9937897}
     debugColor: {r: 0.8930817, g: 0.648748, b: 0.648748, a: 1}
   - name: Player boundary
     distanceToCamera: 75
     padding: 0
-    minBounds: {x: -47.531937, y: -75.00001}
-    maxBounds: {x: 47.531918, y: 74.94826}
+    minBounds: {x: -60.116524, y: -75.00001}
+    maxBounds: {x: 60.11653, y: 74.94178}
     debugColor: {r: 0.9528983, g: 0.9559748, b: 0.063130274, a: 1}
   - name: Ground
     distanceToCamera: 100
     padding: 2
-    minBounds: {x: -63.375916, y: -100.00001}
-    maxBounds: {x: 63.37589, y: 99.93101}
+    minBounds: {x: -80.155365, y: -100.00001}
+    maxBounds: {x: 80.15537, y: 99.92237}
     debugColor: {r: 0.57168895, g: 0.95686275, b: 0.06274508, a: 1}
   - name: Enenies
     distanceToCamera: 75
     padding: 5
-    minBounds: {x: -47.531937, y: -75.00001}
-    maxBounds: {x: 47.531918, y: 74.94826}
+    minBounds: {x: -60.116524, y: -75.00001}
+    maxBounds: {x: 60.11653, y: 74.94178}
     debugColor: {r: 0.95686275, g: 0.06564848, b: 0.06274508, a: 1}
   showDebugBounds: 1
 --- !u!1 &410087039
@@ -1050,7 +1050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1195546722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1279,6 +1279,55 @@ MonoBehaviour:
   prefab: {fileID: 8763607762714683411, guid: 2152c0b51992ab8448a152f3a3cf7005, type: 3}
   speedModifier: 3
   poolManager: {fileID: 1052486186}
+--- !u!1 &1743981470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1743981472}
+  - component: {fileID: 1743981471}
+  m_Layer: 0
+  m_Name: PlayableDirectior
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!320 &1743981471
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743981470}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 0bc6ef67ecf214a499fd05ff806f2871, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
+--- !u!4 &1743981472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743981470}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0036, y: -74.07001, z: -0.00899}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1748750169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,3 +1461,4 @@ SceneRoots:
   - {fileID: 1195546723}
   - {fileID: 547662955}
   - {fileID: 1372436860}
+  - {fileID: 1743981472}

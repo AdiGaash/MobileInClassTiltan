@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using UnityEngine;
 #if UNITY_ANDROID
 using Unity.Notifications.Android;
@@ -111,5 +111,5 @@ public class NotificationManager : MonoBehaviour
         }
     }
 }
-*/
+
 

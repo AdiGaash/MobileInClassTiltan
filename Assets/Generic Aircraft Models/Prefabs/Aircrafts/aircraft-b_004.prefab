@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 4182743276499074478}
   - component: {fileID: -7437461375339993683}
   - component: {fileID: 2950809580213533176}
+  - component: {fileID: -3134272920156701297}
   m_Layer: 0
   m_Name: aircraft-b_004
   m_TagString: Untagged
@@ -211,7 +212,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2381536316569345147}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfc0ed4ed9984e84af726055b77d2dc6, type: 3}
   m_Name: 
@@ -241,6 +242,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 15.003482, y: 4.0747805, z: 10.927366}
   m_Center: {x: 0.0000009536743, y: 0.47282302, z: -0.99129987}
+--- !u!111 &-3134272920156701297
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2381536316569345147}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 72cd954750557fd429dece7b6a33d208, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 72cd954750557fd429dece7b6a33d208, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1001 &4246248459807067210
 PrefabInstance:
   m_ObjectHideFlags: 0

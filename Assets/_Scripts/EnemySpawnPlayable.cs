@@ -1,39 +1,68 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Playables;
 
 namespace Shooter
 {
-    /// <summary>
-    /// Playable behaviour for spawning an enemy at a specific moment in a Timeline.
-    /// </summary>
+    // Handles enemy spawning only (no animation or movement)
     public class EnemySpawnPlayable : PlayableBehaviour
     {
+        [Header("Enemy Settings")]
         public GameObject enemyPrefab;
-        public Transform spawnPoint;
+        public int spawnCount = 1;
+
+        [Header("Pooling")]
         public ObjectPoolManager poolManager;
+
+        // Keep track of spawned enemies for later cleanup
+        private readonly List<GameObject> spawnedEnemies = new List<GameObject>();
+
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
-            if (enemyPrefab == null || poolManager == null || spawnPoint == null)
+            // Spawn enemies when this playable starts
+            for (int i = 0; i < spawnCount; i++)
             {
-                Debug.LogWarning("EnemySpawnPlayable: Missing references!");
-                return;
+                GameObject enemy = SpawnEnemy();
+                if (enemy != null)
+                {
+                    spawnedEnemies.Add(enemy);
+                }
+            }
+        }
+
+
+        private GameObject SpawnEnemy()
+        {
+            if (enemyPrefab == null)
+            {
+                Debug.LogWarning("EnemySpawnPlayable: No enemy prefab assigned!");
+                return null;
             }
 
-            // Pull enemy from pool
-            GameObject enemyObj = poolManager.GetPooledObject(enemyPrefab);
+            // Get from pool if possible, otherwise instantiate
+            if (poolManager != null)
+                return poolManager.GetPooledObject(enemyPrefab);
+            else
+                return Object.Instantiate(enemyPrefab);
+        }
 
-            if (enemyObj == null)
+
+        public override void OnBehaviourPause(Playable playable, FrameData info)
+        {
+            // When the timeline clip ends, return enemies to pool (or destroy them)
+            foreach (var enemy in spawnedEnemies)
             {
-                Debug.LogWarning("EnemySpawnPlayable: Pool returned null object!");
-                return;
+                if (enemy != null)
+                {
+                    if (poolManager != null)
+                        poolManager.ReturnToPool(enemy);
+                    else
+                        Object.Destroy(enemy);
+                }
             }
 
-            // Reset position/rotation
-            enemyObj.transform.position = spawnPoint.position;
-            enemyObj.transform.rotation = Quaternion.identity;
-            enemyObj.SetActive(true);
-            
+            spawnedEnemies.Clear();
         }
     }
 }
