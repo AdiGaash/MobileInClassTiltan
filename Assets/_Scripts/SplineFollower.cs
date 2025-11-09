@@ -15,7 +15,7 @@ namespace Shooter
         public float speed = 5f;
         
         [Tooltip("Should the object loop through the spline")]
-        public bool loop = true;
+        public bool loop = false;
 
         private float currentDistance = 0f;
         private float splineLength;

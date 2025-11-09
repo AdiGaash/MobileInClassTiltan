@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Splines;
 using UnityEngine.Timeline;
 
 namespace Shooter
@@ -14,6 +15,9 @@ namespace Shooter
         [Tooltip("Number of enemies to spawn")]
         public int spawnCount = 1;
 
+        // Change to SplineContainer instead of GameObject
+        public ExposedReference<SplineContainer> splineToFollow;
+
         public ClipCaps clipCaps => ClipCaps.None;
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
@@ -23,6 +27,17 @@ namespace Shooter
 
             behaviour.enemyPrefab = enemyPrefab;
             behaviour.spawnCount = spawnCount;
+
+            // Resolve the SplineContainer directly
+            var director = owner != null ? owner.GetComponent<PlayableDirector>() : null;
+            if (director != null)
+                behaviour.splineToFollow = splineToFollow.Resolve(director);
+            else
+            {
+                behaviour.splineToFollow = null;
+                Debug.LogWarning("EnemySpawnPlayableAsset: splineToFollow not resolved. Bind the SplineContainer to the exposed reference on the Timeline.");
+            }
+
             behaviour.poolManager = Object.FindFirstObjectByType<ObjectPoolManager>();
 
             if (behaviour.poolManager == null)

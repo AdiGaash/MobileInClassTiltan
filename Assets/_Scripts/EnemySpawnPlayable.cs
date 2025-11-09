@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Splines;
 
 namespace Shooter
 {
@@ -10,6 +11,7 @@ namespace Shooter
         [Header("Enemy Settings")]
         public GameObject enemyPrefab;
         public int spawnCount = 1;
+        public SplineContainer splineToFollow;
 
         [Header("Pooling")]
         public ObjectPoolManager poolManager;
@@ -44,25 +46,27 @@ namespace Shooter
             if (poolManager != null)
                 return poolManager.GetPooledObject(enemyPrefab);
             else
-                return Object.Instantiate(enemyPrefab);
+                return null;
         }
-
-
+        
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
-            // When the timeline clip ends, return enemies to pool (or destroy them)
-            foreach (var enemy in spawnedEnemies)
-            {
-                if (enemy != null)
+            //if (info.effectiveParentSpeed > 0f)
+            //{
+                // When the timeline clip ends, return enemies to pool (or destroy them)
+                foreach (var enemy in spawnedEnemies)
                 {
-                    if (poolManager != null)
-                        poolManager.ReturnToPool(enemy);
-                    else
-                        Object.Destroy(enemy);
+                    if (enemy != null)
+                    {
+                        if (poolManager != null)
+                            poolManager.ReturnToPool(enemy);
+                        else
+                            Object.Destroy(enemy);
+                    }
                 }
-            }
 
-            spawnedEnemies.Clear();
+                spawnedEnemies.Clear();
+            //}
         }
     }
 }
