@@ -20,12 +20,13 @@ namespace Shooter
         private readonly List<GameObject> spawnedEnemies = new List<GameObject>();
 
 
+       
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
             // Spawn enemies when this playable starts
             for (int i = 0; i < spawnCount; i++)
             {
-                GameObject enemy = SpawnEnemy();
+                GameObject enemy = SpawnEnemy(playable);
                 if (enemy != null)
                 {
                     spawnedEnemies.Add(enemy);
@@ -34,20 +35,38 @@ namespace Shooter
         }
 
 
-        private GameObject SpawnEnemy()
+        private GameObject SpawnEnemy(Playable playable)
         {
-            if (enemyPrefab == null)
+            if (enemyPrefab == null || splineToFollow == null)
             {
-                Debug.LogWarning("EnemySpawnPlayable: No enemy prefab assigned!");
+                Debug.LogWarning("EnemySpawnPlayable: Missing enemy prefab or spline!");
                 return null;
             }
 
-            // Get from pool if possible, otherwise instantiate
-            if (poolManager != null)
-                return poolManager.GetPooledObject(enemyPrefab);
-            else
-                return null;
+            GameObject enemy = poolManager != null ? poolManager.GetPooledObject(enemyPrefab) : null;
+            if (enemy == null) return null;
+
+            SplineFollower follower = enemy.GetComponent<SplineFollower>();
+            if (follower == null)
+            {
+                follower = enemy.AddComponent<SplineFollower>();
+            }
+
+            // Configure the follower
+            follower.splineContainer = splineToFollow;
+            follower.followRotation = true;
+            follower.followForward = true;
+            follower.startPosition = 0f;
+
+            // Get clip duration and initialize the follower
+            double clipDuration = ((PlayableDirector)playable.GetGraph().GetResolver()).duration;
+            follower.Initialize((float)clipDuration);
+
+            follower.enabled = true;
+            return enemy;
         }
+
+
         
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {

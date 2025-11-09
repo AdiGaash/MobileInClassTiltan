@@ -1,66 +1,41 @@
 ﻿using UnityEngine;
 using UnityEngine.Splines;
-using Unity.Mathematics;
 
-namespace Shooter
+public class SplineFollower : MonoBehaviour
 {
-    // this is just a refrence for possible spline movement implementation that can be use possibly with the playable clip that spawn the enemies...
-    public class SplineFollower : MonoBehaviour
+    public SplineContainer splineContainer;
+    public bool followRotation = true;
+    public bool followForward = true;
+    public float startPosition = 0f;
+    
+    private float duration;
+    private float elapsedTime;
+    private bool isInitialized;
+
+    public void Initialize(float clipDuration)
     {
-        [Header("Spline Settings")]
-        [Tooltip("Reference to the SplineContainer in the scene")]
-        public SplineContainer splinePath;
-        
-        [Tooltip("Movement speed along the spline")]
-        public float speed = 5f;
-        
-        [Tooltip("Should the object loop through the spline")]
-        public bool loop = false;
+        duration = clipDuration;
+        elapsedTime = 0f;
+        isInitialized = true;
+    }
 
-        private float currentDistance = 0f;
-        private float splineLength;
+    private void Update()
+    {
+        if (!isInitialized || splineContainer == null || splineContainer.Spline == null) return;
 
-        private void Start()
+        elapsedTime += Time.deltaTime;
+        float progress = Mathf.Clamp01(elapsedTime / duration);
+
+        // Update position along spline
+        Vector3 position = splineContainer.EvaluatePosition(progress);
+        transform.position = position;
+
+        if (followRotation || followForward)
         {
-            if (splinePath == null)
+            Vector3 tangent = splineContainer.EvaluateTangent(progress);
+            if (tangent != Vector3.zero)
             {
-                Debug.LogError("SplineFollower: No spline assigned!");
-                enabled = false;
-                return;
-            }
-
-            splineLength = splinePath.CalculateLength();
-        }
-
-        private void Update()
-        {
-            // Update distance based on speed
-            currentDistance += speed * Time.deltaTime;
-
-            // Loop or clamp the distance
-            if (loop)
-            {
-                currentDistance %= splineLength;
-            }
-            else if (currentDistance >= splineLength)
-            {
-                currentDistance = splineLength;
-                enabled = false;
-                return;
-            }
-
-            // Get normalized position (0 to 1) along the spline
-            float normalizedDistance = currentDistance / splineLength;
-
-            // Get position and tangent at the current point
-            float3 position = splinePath.EvaluatePosition(normalizedDistance);
-            float3 tangent = splinePath.EvaluateTangent(normalizedDistance);
-
-            // Update position and rotation
-            transform.position = position;
-            if (tangent.x != 0 || tangent.y != 0 || tangent.z != 0)
-            {
-                transform.rotation = Quaternion.LookRotation(tangent);
+                transform.forward = tangent.normalized;
             }
         }
     }
