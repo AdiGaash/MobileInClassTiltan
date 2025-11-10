@@ -1559,26 +1559,26 @@ MonoBehaviour:
   - name: Clouds
     distanceToCamera: 8
     padding: 3
-    minBounds: {x: -7.0438466, y: -8.000001}
-    maxBounds: {x: 7.037444, y: 7.9967985}
+    minBounds: {x: -4.4977527, y: -8.000001}
+    maxBounds: {x: 4.4977517, y: 8.000001}
     debugColor: {r: 0.8930817, g: 0.648748, b: 0.648748, a: 1}
   - name: Player boundary
     distanceToCamera: 75
     padding: 0
-    minBounds: {x: -66.036064, y: -75.00001}
-    maxBounds: {x: 65.976036, y: 74.969986}
+    minBounds: {x: -42.16643, y: -75.00001}
+    maxBounds: {x: 42.166424, y: 75.00001}
     debugColor: {r: 0.9528983, g: 0.9559748, b: 0.063130274, a: 1}
   - name: Ground
     distanceToCamera: 100
     padding: 2
-    minBounds: {x: -88.04808, y: -100.00001}
-    maxBounds: {x: 87.968056, y: 99.959984}
+    minBounds: {x: -56.221905, y: -100.00001}
+    maxBounds: {x: 56.2219, y: 100.00001}
     debugColor: {r: 0.57168895, g: 0.95686275, b: 0.06274508, a: 1}
   - name: Enenies
     distanceToCamera: 75
     padding: 25.64
-    minBounds: {x: -66.036064, y: -75.00001}
-    maxBounds: {x: 65.976036, y: 74.969986}
+    minBounds: {x: -42.16643, y: -75.00001}
+    maxBounds: {x: 42.166424, y: 75.00001}
     debugColor: {r: 0.95686275, g: 0.06564848, b: 0.06274508, a: 1}
   showDebugBounds: 1
 --- !u!1 &341933392
@@ -5832,9 +5832,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelParameters: {fileID: 11400000, guid: 6e6d6711d86b70b44ae7ab6e7524e137, type: 2}
+  ShootingParameters: {fileID: 11400000, guid: 9018ce3b196565446bbd3ad3f21142a4, type: 2}
   moveSpeed: 6.63
   gameArea: {fileID: 330585548}
   boundaryLayerName: Player boundary
+  bulletSpawnPoint: {fileID: 1351079544}
+  ObjectPoolManager: {fileID: 1052486186}
 --- !u!136 &1047097842
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5888,6 +5891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useLegacyInput: 1
+  fireButtonName: Fire1
 --- !u!1 &1047420347
 GameObject:
   m_ObjectHideFlags: 0
@@ -6037,6 +6041,9 @@ MonoBehaviour:
     canExpand: 0
   - prefab: {fileID: 2381536316569345147, guid: 2223e33cd74211a47b2e506e401ee554, type: 3}
     initialPoolSize: 30
+    canExpand: 1
+  - prefab: {fileID: 7980853747742046865, guid: 9db5f2d2ad197ac46942de8b1eda86fb, type: 3}
+    initialPoolSize: 100
     canExpand: 1
 --- !u!4 &1052486187
 Transform:
@@ -7728,7 +7735,7 @@ GameObject:
   m_Layer: 0
   m_Name: FireC
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -7741,7 +7748,7 @@ Transform:
   m_GameObject: {fileID: 1351079543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4.43}
+  m_LocalPosition: {x: 0, y: 0, z: 5.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
