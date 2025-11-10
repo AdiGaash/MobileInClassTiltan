@@ -64,13 +64,27 @@ namespace Shooter
 
         private void InitializeBoundaries()
         {
-            if (gameArea != null)
+            if (gameArea == null)
             {
-                Bounds bounds = gameArea.GetComponent<Collider>().bounds;
-                minBounds = new Vector2(bounds.min.x, bounds.min.z);
-                maxBounds = new Vector2(bounds.max.x, bounds.max.z);
-                boundsInitialized = true;
+                Debug.LogError("GameArea not assigned to PlayerController! Please assign it in the inspector.");
+                return;
             }
+            
+            // Find the appropriate layer for player boundaries
+            foreach (var layer in gameArea.layers)
+            {
+                if (layer.name == boundaryLayerName)
+                {
+                    minBounds = layer.minBounds;
+                    maxBounds = layer.maxBounds;
+                    
+                    Debug.Log($"Player boundary layer '{boundaryLayerName}' found and initialized");
+                    boundsInitialized = true;
+                    return;
+                }
+            }
+            
+            Debug.LogError($"Layer '{boundaryLayerName}' not found in GameArea. Please create this layer in the GameArea component.");
         }
 
         private void Move(Vector2 input)
