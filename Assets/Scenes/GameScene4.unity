@@ -1559,26 +1559,26 @@ MonoBehaviour:
   - name: Clouds
     distanceToCamera: 8
     padding: 3
-    minBounds: {x: -4.4977527, y: -8.000001}
-    maxBounds: {x: 4.4977517, y: 8.000001}
+    minBounds: {x: -4.5000014, y: -8.000001}
+    maxBounds: {x: 4.500001, y: 8.000001}
     debugColor: {r: 0.8930817, g: 0.648748, b: 0.648748, a: 1}
   - name: Player boundary
     distanceToCamera: 75
     padding: 0
-    minBounds: {x: -42.16643, y: -75.00001}
-    maxBounds: {x: 42.166424, y: 75.00001}
+    minBounds: {x: -42.187515, y: -75.00001}
+    maxBounds: {x: 42.187508, y: 75.00001}
     debugColor: {r: 0.9528983, g: 0.9559748, b: 0.063130274, a: 1}
   - name: Ground
     distanceToCamera: 100
     padding: 2
-    minBounds: {x: -56.221905, y: -100.00001}
-    maxBounds: {x: 56.2219, y: 100.00001}
+    minBounds: {x: -56.25002, y: -100.00001}
+    maxBounds: {x: 56.25001, y: 100.00001}
     debugColor: {r: 0.57168895, g: 0.95686275, b: 0.06274508, a: 1}
   - name: Enenies
     distanceToCamera: 75
     padding: 25.64
-    minBounds: {x: -42.16643, y: -75.00001}
-    maxBounds: {x: 42.166424, y: 75.00001}
+    minBounds: {x: -42.187515, y: -75.00001}
+    maxBounds: {x: 42.187508, y: 75.00001}
     debugColor: {r: 0.95686275, g: 0.06564848, b: 0.06274508, a: 1}
   showDebugBounds: 1
 --- !u!1 &341933392

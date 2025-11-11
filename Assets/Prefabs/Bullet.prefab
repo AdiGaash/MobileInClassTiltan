@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 520911547606827726}
   - component: {fileID: 666490955420570896}
   - component: {fileID: 8142631095820981323}
+  - component: {fileID: -3692561503806458073}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -102,3 +103,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76b36fad41c42e18e08e4fcbb34c047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shooter.Projectile
+--- !u!65 &-3692561503806458073
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7980853747742046865}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.4, z: 2}
+  m_Center: {x: -0.00000011920929, y: 0.030080602, z: 0.18}
