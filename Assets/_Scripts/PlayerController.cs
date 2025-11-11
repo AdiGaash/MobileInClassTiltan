@@ -19,7 +19,7 @@ namespace Shooter
         public string boundaryLayerName = "PlayerBoundary";
 
         [Tooltip("Spawn point for bullets")]
-        public Transform bulletSpawnPoint;
+        public Transform[] bulletSpawnPoints;
 
         private InputHandler inputHandler;
         private bool boundsInitialized = false;
@@ -115,27 +115,95 @@ namespace Shooter
 
         private void Shoot()
         {
-            if (ShootingParameters.bulletPrefab == null || bulletSpawnPoint == null || ObjectPoolManager == null)
+            // Validate required references
+            if (ShootingParameters == null)
             {
-                Debug.LogError("Missing references for shooting!");
+                Debug.LogError("ShootingParameters is null!");
+                return;
+            }
+            if (ShootingParameters.bulletPrefab == null)
+            {
+                Debug.LogError("ShootingParameters.bulletPrefab is null!");
+                return;
+            }
+            if (ObjectPoolManager == null)
+            {
+                Debug.LogError("ObjectPoolManager is null!");
+                return;
+            }
+            if (bulletSpawnPoints == null || bulletSpawnPoints.Length == 0)
+            {
+                Debug.LogError("No bullet spawn points assigned!");
                 return;
             }
 
-            GameObject bullet = ObjectPoolManager.GetPooledObject(ShootingParameters.bulletPrefab);
-            if (bullet != null)
+            int numBullets = ShootingParameters.numOfBulletsPerShot;
+
+            // Decide which spawn point indices to use based on requested bullet count
+            int[] spawnIndices;
+            switch (numBullets)
             {
-                bullet.transform.position = bulletSpawnPoint.position;
-                bullet.transform.rotation = bulletSpawnPoint.rotation;
+                case 1:
+                    spawnIndices = new int[] { 0 };          // use index 0
+                    break;
+                case 2:
+                    spawnIndices = new int[] { 1, 2 };      // use indices 1 and 2 (not 0)
+                    break;
+                case 3:
+                    spawnIndices = new int[] { 0, 1, 2 };   // use 0,1,2
+                    break;
+                default:
+                    Debug.LogError($"Unsupported number of bullets per shot: {numBullets}. Supported: 1, 2, 3.");
+                    return;
+            }
+
+            // Validate that required spawn indices exist in the array
+            foreach (int idx in spawnIndices)
+            {
+                if (idx < 0 || idx >= bulletSpawnPoints.Length)
+                {
+                    Debug.LogError($"Bullet spawn point index {idx} is out of range. bulletSpawnPoints.Length = {bulletSpawnPoints.Length}");
+                    return;
+                }
+                if (bulletSpawnPoints[idx] == null)
+                {
+                    Debug.LogError($"bulletSpawnPoints[{idx}] is null!");
+                    return;
+                }
+            }
+
+            // Pull bullets from pool and initialize them at the chosen spawn points
+            foreach (int idx in spawnIndices)
+            {
+                Transform spawnPoint = bulletSpawnPoints[idx];
+
+                GameObject bullet = ObjectPoolManager.GetPooledObject(ShootingParameters.bulletPrefab);
+                if (bullet == null)
+                {
+                    Debug.LogWarning("ObjectPoolManager returned null (no available bullet in pool).");
+                    continue;
+                }
+
+                bullet.transform.position = spawnPoint.position;
+                bullet.transform.rotation = spawnPoint.rotation;
                 bullet.SetActive(true);
-                
-                var projectile = bullet.GetComponent<Projectile>();
+
+                Projectile projectile = bullet.GetComponent<Projectile>();
                 if (projectile != null)
                 {
-                    projectile.Initialize(ShootingParameters.bulletDamage,
+                    projectile.Initialize(
+                        ShootingParameters.bulletDamage,
                         ShootingParameters.bulletSpeed,
-                        ShootingParameters.bulletLifetime, ObjectPoolManager);
+                        ShootingParameters.bulletLifetime,
+                        ObjectPoolManager
+                    );
+                }
+                else
+                {
+                    Debug.LogWarning("Pooled bullet object is missing a Projectile component.");
                 }
             }
         }
+        
     }
 }

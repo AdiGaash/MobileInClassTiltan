@@ -5836,7 +5836,10 @@ MonoBehaviour:
   moveSpeed: 6.63
   gameArea: {fileID: 330585548}
   boundaryLayerName: Player boundary
-  bulletSpawnPoint: {fileID: 1351079544}
+  bulletSpawnPoints:
+  - {fileID: 1351079544}
+  - {fileID: 1499221138}
+  - {fileID: 937364617}
   ObjectPoolManager: {fileID: 1052486186}
 --- !u!136 &1047097842
 CapsuleCollider:

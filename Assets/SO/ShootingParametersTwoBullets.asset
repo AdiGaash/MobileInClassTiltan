@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581443a9480242f0adf393d7b209a9b8, type: 3}
+  m_Name: ShootingParametersTwoBullets
+  m_EditorClassIdentifier: Assembly-CSharp::Shooter.ShootingParameters
+  fireRate: 0.5
+  bulletDamage: 10
+  bulletSpeed: 20
+  bulletPrefab: {fileID: 7980853747742046865, guid: 9db5f2d2ad197ac46942de8b1eda86fb, type: 3}
+  bulletLifetime: 3
