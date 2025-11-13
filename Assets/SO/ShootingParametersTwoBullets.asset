@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: ShootingParametersTwoBullets
   m_EditorClassIdentifier: Assembly-CSharp::Shooter.ShootingParameters
   fireRate: 0.5
-  bulletDamage: 10
+  bulletDamage: 4
   bulletSpeed: 20
+  numOfBulletsPerShot: 1
   bulletPrefab: {fileID: 7980853747742046865, guid: 9db5f2d2ad197ac46942de8b1eda86fb, type: 3}
   bulletLifetime: 3

@@ -5,6 +5,7 @@ using UnityEngine.Timeline;
 
 namespace Shooter
 {
+    [System.Serializable]
     [CreateAssetMenu(fileName = "EnemySpawnClip", menuName = "Shooter/Enemy Spawn Clip")]
     public class EnemySpawnPlayableAsset : PlayableAsset, ITimelineClipAsset
     {
@@ -18,7 +19,9 @@ namespace Shooter
         // Change to SplineContainer instead of GameObject
         public ExposedReference<SplineContainer> splineToFollow;
 
-        public ClipCaps clipCaps => ClipCaps.None;
+        public ClipCaps clipCaps => ClipCaps.All;
+        
+        [HideInInspector] public double clipDuration = 1.0;
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
@@ -38,6 +41,7 @@ namespace Shooter
                 Debug.LogWarning("EnemySpawnPlayableAsset: splineToFollow not resolved. Bind the SplineContainer to the exposed reference on the Timeline.");
             }
 
+            behaviour.clipDuration = (float)clipDuration;
             behaviour.poolManager = Object.FindFirstObjectByType<ObjectPoolManager>();
 
             if (behaviour.poolManager == null)

@@ -19,6 +19,7 @@ namespace Shooter
         // Keep track of spawned enemies for later cleanup
         private readonly List<GameObject> spawnedEnemies = new List<GameObject>();
 
+        [HideInInspector] public float clipDuration; // 👈 Duration passed from PlayableAsset
 
        
         public override void OnBehaviourPlay(Playable playable, FrameData info)
@@ -51,16 +52,12 @@ namespace Shooter
             {
                 follower = enemy.AddComponent<SplineFollower>();
             }
-
+            follower.enabled = false;
             // Configure the follower
-            follower.splineContainer = splineToFollow;
-            follower.followRotation = true;
-            follower.followForward = true;
-            follower.startPosition = 0f;
-
             // Get clip duration and initialize the follower
-            double clipDuration = ((PlayableDirector)playable.GetGraph().GetResolver()).duration;
-            follower.Initialize((float)clipDuration);
+           
+            
+            follower.Initialize(clipDuration, splineToFollow);
 
             follower.enabled = true;
             return enemy;
@@ -70,8 +67,7 @@ namespace Shooter
         
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
-            //if (info.effectiveParentSpeed > 0f)
-            //{
+            
                 // When the timeline clip ends, return enemies to pool (or destroy them)
                 foreach (var enemy in spawnedEnemies)
                 {
@@ -85,7 +81,7 @@ namespace Shooter
                 }
 
                 spawnedEnemies.Clear();
-            //}
+            
         }
     }
 }

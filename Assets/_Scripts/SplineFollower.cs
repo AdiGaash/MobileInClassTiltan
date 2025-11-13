@@ -3,18 +3,19 @@ using UnityEngine.Splines;
 
 public class SplineFollower : MonoBehaviour
 {
-    public SplineContainer splineContainer;
-    public bool followRotation = true;
-    public bool followForward = true;
-    public float startPosition = 0f;
-    
+    SplineContainer splineContainer;
+    float startPosition = 0f;
+
     private float duration;
     private float elapsedTime;
     private bool isInitialized;
 
-    public void Initialize(float clipDuration)
+    public void Initialize(float clipDuration, SplineContainer splineContainer)
     {
+        this.splineContainer = splineContainer;
+        startPosition = 0;
         duration = clipDuration;
+        Debug.Log(clipDuration);
         elapsedTime = 0f;
         isInitialized = true;
     }
@@ -25,18 +26,20 @@ public class SplineFollower : MonoBehaviour
 
         elapsedTime += Time.deltaTime;
         float progress = Mathf.Clamp01(elapsedTime / duration);
-
+        Debug.Log("progress: " + progress);
         // Update position along spline
         Vector3 position = splineContainer.EvaluatePosition(progress);
         transform.position = position;
 
-        if (followRotation || followForward)
+        Vector3 tangent = splineContainer.EvaluateTangent(progress);
+        if (tangent != Vector3.zero)
         {
-            Vector3 tangent = splineContainer.EvaluateTangent(progress);
-            if (tangent != Vector3.zero)
-            {
-                transform.forward = tangent.normalized;
-            }
+            transform.forward = tangent.normalized;
+        }
+
+        if (progress >= 1f)
+        {
+            isInitialized = false;
         }
     }
 }
