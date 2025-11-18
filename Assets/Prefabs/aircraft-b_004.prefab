@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 4182743276499074478}
   - component: {fileID: 2950809580213533176}
   - component: {fileID: -1237941958060153250}
+  - component: {fileID: 5262655533200426380}
   m_Layer: 0
   m_Name: aircraft-b_004
   m_TagString: Untagged
@@ -237,8 +238,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c7658c9b2346b8b3e4367bd47375ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SplineFollower
-  splineContainer: {fileID: 0}
-  startPosition: 0
+--- !u!114 &5262655533200426380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2381536316569345147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc0ed4ed9984e84af726055b77d2dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shooter.Enemy
+  playerTransform: {fileID: 0}
+  health: 0
+  MoveSpeed: 5
+  canMoveTowardsPlayer: 0
 --- !u!1001 &4246248459807067210
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -106,6 +106,21 @@ namespace Shooter
         /// <param name="position">The position to set for the object.</param>
         /// <param name="rotation">The rotation to set for the object.</param>
         /// <returns>An instance of the prefab from the pool.</returns>
+        
+        public GameObject GetPooledObject(string prefabName)
+        {
+            foreach (var poolInfo in pooledObjects)
+            {
+                if (poolInfo.prefab != null && poolInfo.prefab.name == prefabName)
+                {
+                    return GetPooledObject(poolInfo.prefab);
+                }
+            }
+
+            Debug.LogWarning($"No pool found for prefab with name: {prefabName}");
+            return null;
+        }
+        
         public GameObject GetPooledObject(GameObject prefab)
         {
             if (!inactivePoolDictionary.ContainsKey(prefab))
