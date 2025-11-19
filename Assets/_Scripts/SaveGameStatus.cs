@@ -52,9 +52,8 @@ namespace Shooter
             if (Player == null)
                 Player = FindFirstObjectByType<Player>();
 
-            // Load Player Data
-            Vector3 worldPosition = new Vector3(playerData.WorldPositionx, playerData.WorldPositiony, playerData.WorldPositionz);
-            Player.transform.position = worldPosition;
+            // Load and set Player's Data
+            Player.transform.position = new Vector3(playerData.WorldPositionx, playerData.WorldPositiony, playerData.WorldPositionz);
             Player.Health = playerData.Health;
             Player.Lives = playerData.Lives;
             Player.Score = playerData.Score;
@@ -80,6 +79,9 @@ namespace Shooter
                     {
                         enemyComponent.health = enemyData.Health;
                     }
+                    
+                    loadedEnemy.transform.position = new Vector3(enemyData.WorldPositionx,enemyData.WorldPositiony,enemyData.WorldPositionz);
+                    
                 }
                 else
                 {
@@ -151,13 +153,20 @@ namespace Shooter
     public class EnemyData
     {
         public string PrefabName { get; set; }
-        public Vector3 WorldPosition { get; set; }
+        
+        public float WorldPositionx { get; set; }
+        public float WorldPositiony { get; set; }
+        public float WorldPositionz { get; set; }
         public int Health { get; set; }
 
         public EnemyData(string prefabName, Vector3 worldPosition, int health)
         {
             PrefabName = prefabName;
-            WorldPosition = worldPosition;
+            
+            WorldPositionx = worldPosition.x;
+            WorldPositiony = worldPosition.y;
+            WorldPositionz = worldPosition.z;
+            
             Health = health;
         }
     }
